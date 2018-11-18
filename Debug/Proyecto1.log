@@ -1,19 +1,5 @@
-﻿Compilación iniciada a las 12/11/2018 08:11:14 p. m..
-     1>Proyecto "C:\Users\Irvin\Desktop\Proyecto Final Lab compu gráfica V1.0\Proyecto1\Proyecto1.vcxproj" en el nodo 2 (Build destinos).
-     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(392,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (Proyecto Fianl.vcxproj, Proyecto1.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /Iinclude /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
-         main.cpp
-     1>c:\users\irvin\desktop\proyecto final lab compu gráfica v1.0\proyecto1\main.cpp(1175): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
-         c:\program files (x86)\windows kits\10\include\10.0.10150.0\ucrt\stdio.h(1769): note: vea la declaración de 'sprintf'
-       Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Irvin\Desktop\Proyecto Final Lab compu gráfica V1.0\Debug\Proyecto Final.exe" /INCREMENTAL /NOLOGO /LIBPATH:lib cmodel/CModel.lib glut32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /NODEFAULTLIB:LIBCD.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /Debug /PDB:"C:\Users\Irvin\Desktop\Proyecto Final Lab compu gráfica V1.0\Debug\Proyecto Final.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Irvin\Desktop\Proyecto Final Lab compu gráfica V1.0\Debug\Proyecto Final.lib" /MACHINE:X86 Debug\Camera.obj
-         Debug\figuras.obj
-         Debug\main.obj
-         Debug\texture.obj
-         Proyecto1.vcxproj -> C:\Users\Irvin\Desktop\Proyecto Final Lab compu gráfica V1.0\Debug\Proyecto Final.exe
-     1>Compilación del proyecto terminada "C:\Users\Irvin\Desktop\Proyecto Final Lab compu gráfica V1.0\Proyecto1\Proyecto1.vcxproj" (Build destinos).
-
-Compilación correcta.
-
-Tiempo transcurrido 00:00:01.23
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(391,5): warning MSB8028: El directorio intermedio (Debug\) contiene archivos compartidos de otro proyecto (Proyecto Fianl.vcxproj, Proyecto1.vcxproj). Esto puede dar lugar a un comportamiento incorrecto de limpieza y recompilación.
+  main.cpp
+c:\users\avata\desktop\proyecto final lab compu gráfica v1.0\proyecto1\main.cpp(686): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.17134.0\ucrt\stdio.h(1774): note: vea la declaración de 'sprintf'
+  Proyecto1.vcxproj -> C:\Users\avata\Desktop\Proyecto Final Lab compu gráfica V1.0\Debug\Proyecto Final.exe

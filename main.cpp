@@ -12,6 +12,12 @@
 #include "Camera.h"
 #include "cmodel/CModel.h"
 
+//*************variables para las camaras
+int cam = 0;
+float c1PosX = 7.617214, c1PosY = 0.5, c1PosZ = 14.272827, c1ViewX = 8.109015, c1ViewY = 0.05, c1ViewZ = -44.224670, c1UpX = 0, c1UpY = 1, c1UpZ = 0;
+float c2PosX = 7.617214, c2PosY = 0.5, c2PosZ = 14.272827, c2ViewX = 8.109015, c2ViewY = 0.05, c2ViewZ = -44.224670, c2UpX = 0, c2UpY = 1, c2UpZ = 0;
+float c3PosX = 7.617214, c3PosY = 0.5, c3PosZ = 14.272827, c3ViewX = 8.109015, c3ViewY = 0.05, c3ViewZ = -44.224670, c3UpX = 0, c3UpY = 1, c3UpZ = 0;
+
 //*************variables para movimientos u animaciones
 float transpuerta1 = 0.0f;
 float transpuerta2 = 0.0f;
@@ -58,21 +64,14 @@ GLfloat Position2[] = { 0.0f, 0.0f, -5.0f, 1.0f };			// Light Position
 CTexture atardecersky;//paredes skybox
 CTexture pastosky;//suelo skybox
 
-CTexture sueloterror;
-CTexture paredesterror;
-CTexture techoterror;
-CTexture frontalterror;
-CTexture traseraterror;
+
+
 CTexture transparente;
 CTexture puertaterror;//puerta frontal casa terror
 CTexture puerta2terror;//puerta frontal casa terror
 CTexture ventanaterror;//ventana
-CTexture textbruja;
 CTexture letrerobienvenida;
 CTexture sangre;//alberca de sangre
-CTexture paredalberca;
-CTexture letrero;
-CTexture murcielago;
 
 //*********************Texturas cuarto muertos****************
 CTexture textcasa;//Paredes casa
@@ -85,17 +84,7 @@ CTexture textpapel3;//Papel Picado 3
 CTexture textpapel4;//Papel Picado 4
 CTexture textpapel5;//Papel Picado 5
 CTexture textpapel6;//Papel Picado 6
-CTexture textcartel;//Cartel
-CTexture textcartel2;//Carte2
-CTexture textcoco;//Mamá COCO
-CTexture textjarra;//Jarra barro
-CTexture textcempa;//Flor de cempasuchil
-CTexture textahumador;//Ahumador
 CTexture textpapelmesa;//Papel mesa cubre mesa
-CTexture textpapeltecho1;//Papel techo 1
-CTexture textpan;//Pan 1
-CTexture textazucarcalavera;//Azucar calavera 1
-CTexture textventana;
 
 //*******************Figuras*********
 CFiguras fig1;//fig skybox
@@ -277,11 +266,11 @@ void InitGL(GLvoid)     // Inicializamos parametros
 	//**********declaración de texturas**********
 
 	//*********texturas skybox*******
-	atardecersky.LoadTGA("TGA/Skybox/atardecer.tga");
+	atardecersky.LoadTGA("TGA/Skybox/paisaje.tga");
 	atardecersky.BuildGLTexture();
 	atardecersky.ReleaseImage();
 
-	pastosky.LoadTGA("TGA/Skybox/pasto.tga");
+	pastosky.LoadTGA("TGA/Skybox/nieve.tga");
 	pastosky.BuildGLTexture();
 	pastosky.ReleaseImage();
 
@@ -290,26 +279,6 @@ void InitGL(GLvoid)     // Inicializamos parametros
 	letrerobienvenida.ReleaseImage();
 
 	//************texturas casa terror*****/
-	sueloterror.LoadTGA("TGA/Terror/suelo.tga");
-	sueloterror.BuildGLTexture();
-	sueloterror.ReleaseImage();
-
-	paredesterror.LoadTGA("TGA/Terror/paredes.tga");
-	paredesterror.BuildGLTexture();
-	paredesterror.ReleaseImage();
-
-	techoterror.LoadTGA("TGA/Terror/techo.tga");
-	techoterror.BuildGLTexture();
-	techoterror.ReleaseImage();
-
-	frontalterror.LoadTGA("TGA/Terror/paredfrontal.tga");
-	frontalterror.BuildGLTexture();
-	frontalterror.ReleaseImage();
-
-	traseraterror.LoadTGA("TGA/Terror/paredtrasera.tga");
-	traseraterror.BuildGLTexture();
-	traseraterror.ReleaseImage();
-
 	transparente.LoadTGA("TGA/Terror/transparente.tga");
 	transparente.BuildGLTexture();
 	transparente.ReleaseImage();
@@ -325,26 +294,10 @@ void InitGL(GLvoid)     // Inicializamos parametros
 	ventanaterror.LoadTGA("TGA/Terror/ventana.tga");
 	ventanaterror.BuildGLTexture();
 	ventanaterror.ReleaseImage();
-
-	textbruja.LoadTGA("TGA/Terror/bruja.tga");
-	textbruja.BuildGLTexture();
-	textbruja.ReleaseImage();
-
-	sangre.LoadTGA("TGA/Terror/sangre.tga");
+	
+	/*sangre.LoadTGA("TGA/Terror/sangre.tga");
 	sangre.BuildGLTexture();
-	sangre.ReleaseImage();
-
-	paredalberca.LoadTGA("TGA/Terror/paredalberca.tga");
-	paredalberca.BuildGLTexture();
-	paredalberca.ReleaseImage();
-
-	letrero.LoadTGA("TGA/Terror/letrero.tga");
-	letrero.BuildGLTexture();
-	letrero.ReleaseImage();
-
-	murcielago.LoadTGA("TGA/Terror/murcielago.tga");
-	murcielago.BuildGLTexture();
-	murcielago.ReleaseImage();
+	sangre.ReleaseImage();*/
 
 	//*****************texturas casa muertos********************
 
@@ -359,6 +312,7 @@ void InitGL(GLvoid)     // Inicializamos parametros
 	textcasa3.LoadTGA("TGA/Muertos/casa1traserapuerta.tga");
 	textcasa3.BuildGLTexture();
 	textcasa3.ReleaseImage();
+	//---------------------
 
 	textpapel1.LoadTGA("TGA/Muertos/papel1.tga");
 	textpapel1.BuildGLTexture();
@@ -384,47 +338,9 @@ void InitGL(GLvoid)     // Inicializamos parametros
 	textpapel6.BuildGLTexture();
 	textpapel6.ReleaseImage();
 
-	textcartel.LoadTGA("TGA/Muertos/cartel.tga");
-	textcartel.BuildGLTexture();
-	textcartel.ReleaseImage();
-
-	textcartel2.LoadTGA("TGA/Muertos/cartel2.tga");
-	textcartel2.BuildGLTexture();
-	textcartel2.ReleaseImage();
-
-	textcoco.LoadTGA("TGA/Muertos/coco.tga");
-	textcoco.BuildGLTexture();
-	textcoco.ReleaseImage();
-
-	textjarra.LoadTGA("TGA/Muertos/jarra.tga");
-	textjarra.BuildGLTexture();
-	textjarra.ReleaseImage();
-
-	textcempa.LoadTGA("TGA/Muertos/cempa.tga");
-	textcempa.BuildGLTexture();
-	textcempa.ReleaseImage();
-
-	textahumador.LoadTGA("TGA/Muertos/ahumador.tga");
-	textahumador.BuildGLTexture();
-	textahumador.ReleaseImage();
-
 	textpapelmesa.LoadTGA("TGA/Muertos/papelmesa.tga");
 	textpapelmesa.BuildGLTexture();
 	textpapelmesa.ReleaseImage();
-
-
-	textpapeltecho1.LoadTGA("TGA/Muertos/papeltecho1.tga");
-	textpapeltecho1.BuildGLTexture();
-	textpapeltecho1.ReleaseImage();
-
-
-	textpan.LoadTGA("TGA/Muertos/pan1.tga");
-	textpan.BuildGLTexture();
-	textpan.ReleaseImage();
-
-	textazucarcalavera.LoadTGA("TGA/Muertos/azucarcalavera.tga");
-	textazucarcalavera.BuildGLTexture();
-	textazucarcalavera.ReleaseImage();
 
 	//***************Figuras 3ds casa terror*********
 	calabaza._3dsLoad("3DS/Terror/calabaza.3ds");
@@ -539,8 +455,6 @@ void pintaTexto(float x, float y, float z, void *font,char *string)
   }
 }
 
-
-
 void display ( void )   // Creamos la funcion donde se dibuja
 {
 	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -561,432 +475,32 @@ void display ( void )   // Creamos la funcion donde se dibuja
 				glDisable(GL_LIGHTING);
 				glTranslatef(0, 74, -65);
 				fig1.skybox(180.0, 300.0, 180.0, atardecersky.GLindex, pastosky.GLindex); //altura*largo*profundidad
-				glTranslatef(18.0, -80.0, 55.0);
+				glTranslatef(38.0, -80.0, 65.0);
 				glRotatef(150, 0.0, 1.0, 0.0);
 				fig7.letrero(20.0, 20.0, 0.0001, letrerobienvenida.GLindex);
 				glEnable(GL_LIGHTING);
 			glPopMatrix();//pop skybox
 
-			glPushMatrix();//push cuarto de terror
-				glTranslatef(-60, 15, -70);
-				fig2.cuartoterror(60.0, 70.0, 120.0, paredesterror.GLindex, sueloterror.GLindex, techoterror.GLindex, frontalterror.GLindex, traseraterror.GLindex);//altura*largo*profundidad
-				if (!light)
-				{
-					glDisable(GL_LIGHT0);
-				}
-				else
-				{
-					glEnable(GL_LIGHT0);
-				}
-				if (!lightlamp)
-				{
-					glDisable(GL_LIGHT2);
-				}
-				else
-				{
-					glEnable(GL_LIGHT2);
-				}
-
-				glPushMatrix();//push camino de calabazas
-
-					glPushMatrix();//push calabazas lado izquierdo
-
-						glPushMatrix();//push calabaza1
-							glEnable(GL_LIGHT1);//activamos la luz 1 para que solo afecte a la calabaza
-							glDisable(GL_COLOR_MATERIAL);
-							glTranslatef(-10.0, -27.0, 35.0);
-							glRotatef(30, 0.0, 1.0, 0.0);
-							glScalef(0.5, 0.5, 0.5);
-							calabaza.GLrender(NULL, _SHADED, 1.0);
-							glEnable(GL_COLOR_MATERIAL);
-							glDisable(GL_LIGHT1);
-						glPopMatrix();//pop calabaza1
-
-						glPushMatrix();//push calabaza2
-							glEnable(GL_LIGHT1);//activamos la luz 1 para que solo afecte a la calabaza
-							glDisable(GL_COLOR_MATERIAL);
-							glTranslatef(-10.0, -27.0, 15.0);
-							glRotatef(30, 0.0, 1.0, 0.0);
-							glScalef(0.5, 0.5, 0.5);
-							calabaza.GLrender(NULL, _SHADED, 1.0);
-							glEnable(GL_COLOR_MATERIAL);
-							glDisable(GL_LIGHT1);
-						glPopMatrix();//pop calabaza2
-
-						glPushMatrix();//push calabaza3
-							glEnable(GL_LIGHT1);//activamos la luz 1 para que solo afecte a la calabaza
-							glDisable(GL_COLOR_MATERIAL);
-							glTranslatef(-10.0, -27.0, -5.0);
-							glRotatef(30, 0.0, 1.0, 0.0);
-							glScalef(0.5, 0.5, 0.5);
-							calabaza.GLrender(NULL, _SHADED, 1.0);
-							glEnable(GL_COLOR_MATERIAL);
-							glDisable(GL_LIGHT1);
-						glPopMatrix();//pop calabaza3
-
-						glPushMatrix();//push calabaza4
-							glEnable(GL_LIGHT1);//activamos la luz 1 para que solo afecte a la calabaza
-							glDisable(GL_COLOR_MATERIAL);
-							glTranslatef(-10.0, -27.0, -25.0);
-							glRotatef(30, 0.0, 1.0, 0.0);
-							glScalef(0.5, 0.5, 0.5);
-							calabaza.GLrender(NULL, _SHADED, 1.0);
-							glEnable(GL_COLOR_MATERIAL);
-							glDisable(GL_LIGHT1);
-						glPopMatrix();//pop calabaza4
-
-						glPushMatrix();//push calabaza5
-							glEnable(GL_LIGHT1);//activamos la luz 1 para que solo afecte a la calabaza
-							glDisable(GL_COLOR_MATERIAL);
-							glTranslatef(-10.0, -27.0, -45.0);
-							glRotatef(30, 0.0, 1.0, 0.0);
-							glScalef(0.5, 0.5, 0.5);
-							calabaza.GLrender(NULL, _SHADED, 1.0);
-							glEnable(GL_COLOR_MATERIAL);
-							glDisable(GL_LIGHT1);
-						glPopMatrix();//pop calabaza5
-
-					glPopMatrix();//pop calabazas lado izquierdo
-
-					//***********************comienzan calabazas lado derecho********************
-
-					glPushMatrix();//push calabazas lado derecho
-
-						glPushMatrix();//push calabaza1
-							glEnable(GL_LIGHT1);//activamos la luz 1 para que solo afecte a la calabaza
-							glDisable(GL_COLOR_MATERIAL);
-							glTranslatef(10.0, -27.0, 35.0);
-							glRotatef(-30, 0.0, 1.0, 0.0);
-							glScalef(0.5, 0.5, 0.5);
-							calabaza.GLrender(NULL, _SHADED, 1.0);
-							glEnable(GL_COLOR_MATERIAL);
-							glDisable(GL_LIGHT1);
-						glPopMatrix();//pop calabaza1
-
-						glPushMatrix();//push calabaza2
-							glEnable(GL_LIGHT1);//activamos la luz 1 para que solo afecte a la calabaza
-							glDisable(GL_COLOR_MATERIAL);
-							glTranslatef(10.0, -27.0, 15.0);
-							glRotatef(-30, 0.0, 1.0, 0.0);
-							glScalef(0.5, 0.5, 0.5);
-							calabaza.GLrender(NULL, _SHADED, 1.0);
-							glEnable(GL_COLOR_MATERIAL);
-							glDisable(GL_LIGHT1);
-						glPopMatrix();//pop calabaza2
-
-						glPushMatrix();//push calabaza3
-							glEnable(GL_LIGHT1);//activamos la luz 1 para que solo afecte a la calabaza
-							glDisable(GL_COLOR_MATERIAL);
-							glTranslatef(10.0, -27.0, -5.0);
-							glRotatef(-30, 0.0, 1.0, 0.0);
-							glScalef(0.5, 0.5, 0.5);
-							calabaza.GLrender(NULL, _SHADED, 1.0);
-							glEnable(GL_COLOR_MATERIAL);
-							glDisable(GL_LIGHT1);
-						glPopMatrix();//pop calabaza3
-
-						glPushMatrix();//push calabaza4
-							glEnable(GL_LIGHT1);//activamos la luz 1 para que solo afecte a la calabaza
-							glDisable(GL_COLOR_MATERIAL);
-							glTranslatef(10.0, -27.0, -25.0);
-							glRotatef(-30, 0.0, 1.0, 0.0);
-							glScalef(0.5, 0.5, 0.5);
-							calabaza.GLrender(NULL, _SHADED, 1.0);
-							glEnable(GL_COLOR_MATERIAL);
-							glDisable(GL_LIGHT1);
-						glPopMatrix();//pop calabaza4
-
-						glPushMatrix();//push calabaza5
-							glEnable(GL_LIGHT1);//activamos la luz 1 para que solo afecte a la calabaza
-							glDisable(GL_COLOR_MATERIAL);
-							glTranslatef(10.0, -27.0, -45.0);
-							glRotatef(-30, 0.0, 1.0, 0.0);
-							glScalef(0.5, 0.5, 0.5);
-							calabaza.GLrender(NULL, _SHADED, 1.0);
-							glEnable(GL_COLOR_MATERIAL);
-							glDisable(GL_LIGHT1);
-						glPopMatrix();//pop calabaza5
-						
-					glPopMatrix();//pop calabazas lado derecho
-
-					glPushMatrix();//push adornos 3ds
-
-						glPushMatrix();//push esqueleto1
-							glDisable(GL_COLOR_MATERIAL);
-							glTranslatef(25.0, -30.0, -50.0);
-							glRotatef(-30, 0.0, 1.0, 0.0);
-							glScalef(60.0, 60.0 , 60.0);
-							esqueleto.GLrender(NULL, _SHADED, 1.0);
-							glEnable(GL_COLOR_MATERIAL);
-						glPopMatrix();//pop esqueleto1
-					
-						glPushMatrix();//push esqueleto2
-							glDisable(GL_COLOR_MATERIAL);
-							glTranslatef(-25.0, -30.0, -20.0);
-							glRotatef(40, 0.0, 1.0, 0.0);
-							glScalef(60.0, 60.0 , 60.0);
-							esqueleto.GLrender(NULL, _SHADED, 1.0);
-							glEnable(GL_COLOR_MATERIAL);
-						glPopMatrix();//pop esqueleto2
-
-						glPushMatrix();//push esqueleto3
-							glDisable(GL_COLOR_MATERIAL);
-							glTranslatef(25.0, -30.0, 10.0);
-							glRotatef(-30, 0.0, 1.0, 0.0);
-							glScalef(60.0, 60.0 , 60.0);
-							esqueleto.GLrender(NULL, _SHADED, 1.0);
-							glEnable(GL_COLOR_MATERIAL);
-						glPopMatrix();//pop esqueleto3
-
-						glPushMatrix();//push arana1
-							glDisable(GL_COLOR_MATERIAL);
-							glTranslatef(-22.0, -30.0, 10.0);
-							glRotatef(30, 0.0, 1.0, 0.0);
-							glScalef(500.0, 500.0 , 500.0);
-							arana.GLrender(NULL, _SHADED, 1.0);
-							glEnable(GL_COLOR_MATERIAL);
-						glPopMatrix();//pop arana1
-
-						glPushMatrix();//push arana2
-							glDisable(GL_COLOR_MATERIAL);
-							glTranslatef(22.0, -30.0, -15.0);
-							glRotatef(-30, 0.0, 1.0, 0.0);
-							glScalef(500.0, 500.0 , 500.0);
-							arana.GLrender(NULL, _SHADED, 1.0);
-							glEnable(GL_COLOR_MATERIAL);
-						glPopMatrix();//pop arana2
-
-
-					glPopMatrix();//pop adornos 3ds
-
-				glPopMatrix();//pop camino de calabazas*/
-
-				glPushMatrix();//push bruja izquierda
-					glRotatef(90, 0.0, 1.0, 0.0);
-					glTranslatef(0, 0, 34.0);
-					if (movbruja > 50)
-					{
-						g_fanimacion = false;
-						g_fanimacion2 = true;
-
-					}
-					else if (movbruja < -50)
-					{
-						g_fanimacion2 = false;
-						g_fanimacion = true;
-						
-					};
-					if (arribaabajo > 15)
-					{
-						g_fanima = false;
-						g_fanima2 = true;
-					}
-					else if (arribaabajo < -15)
-					{
-						g_fanima = true;
-						g_fanima2 = false;
-					};
-					glTranslatef(movbruja, 0.0, 0.0);
-					glTranslatef(0, arribaabajo, 0);
-					fig6.bruja(10.0, 10.0, 0.1, textbruja.GLindex);//altura*largo*profundidad
-				glPopMatrix();//pop bruja izquierda
-
-				glPushMatrix();//push bruja derecha
-					glRotatef(90, 0.0, 1.0, 0.0);
-					glTranslatef(0, 0, -34.0);
-					if (movbruja > 50)
-					{
-						g_fanimacion = false;
-						g_fanimacion2 = true;
-
-					}
-					else if (movbruja < -50)
-					{
-						g_fanimacion2 = false;
-						g_fanimacion = true;
-						
-					};
-					if (arribaabajo > 15)
-					{
-						g_fanima = false;
-						g_fanima2 = true;
-					}
-					else if (arribaabajo < -15)
-					{
-						g_fanima = true;
-						g_fanima2 = false;
-					};
-					glTranslatef(movbruja, 0.0, 0.0);
-					glTranslatef(0, arribaabajo, 0);
-					fig6.bruja(10.0, 10.0, 0.1, textbruja.GLindex);//altura*largo*profundidad
-				glPopMatrix();//pop bruja derecha
-
-				glPushMatrix();//push letrero los que han entrado
-					glRotatef(180, 0.0, 1.0, 0.0);
-					glTranslatef(25.0, -4.0, 59.9);
-					fig9.letrero(20.0, 20.0, 0.1, letrero.GLindex);
-				glPopMatrix();//pop letrero los que han entrado
-
-				glPushMatrix();//push alberca
-					glTranslatef(-23.9, -27.0, -52.9);
-					fig8.alberca(2.0, 22.0, 14.0, sangre.GLindex, paredalberca.GLindex);
-
-						glPushMatrix();//push animacion alberca
-							glTranslatef(0.0, 1.1, 0.0);
-							glDisable(GL_LIGHTING);
-							glEnable(GL_BLEND);
-							glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-							glBindTexture(GL_TEXTURE_2D, sangre.GLindex);
-							glBegin(GL_QUADS);
-							glNormal3f(0, 0, 1);
-								glTexCoord2f(0 + alberca, 0 + alberca);	glVertex3f(11, 0, -7);
-								glTexCoord2f(1 + alberca, 0 + alberca);	glVertex3f(-11, 0, -7);
-								glTexCoord2f(1 + alberca, 1 + alberca);	glVertex3f(-11, 0, 7);
-								glTexCoord2f(0 + alberca, 1 + alberca);	glVertex3f(11, 0, 7);
-							glEnd();
-							glEnable(GL_LIGHTING);
-							glDisable(GL_ALPHA_TEST);
-							glDisable(GL_CULL_FACE);
-							glDepthFunc(GL_LEQUAL);
-						glPopMatrix();//pop animacion alberca
-
-				glPopMatrix();//pop alberca
-
-				glPushMatrix();//push grupo murcielagos
-					if (movmurci > 0)
-					{
-						h_fanimacion = false;
-						h_fanimacion2 = true;
-
-					}
-					else if (movmurci < -50)
-					{
-						h_fanimacion2 = false;
-						h_fanimacion = true;
-						
-					};
-
-					glPushMatrix();//push murcielago1
-						glTranslatef(27.0, 12.0, -50.0);
-						glTranslatef(movmurci, 0.0, 0.0);
-						fig10.murcielago(12.0, 12.0, 0.1, murcielago.GLindex);
-					glPopMatrix();//pop murcielago1
-
-					glPushMatrix();//push murcielago2
-						glTranslatef(-26.0, 0.0, -30.0);
-						glRotatef(180, 0.0, 1.0, 0.0);
-						glTranslatef(movmurci, 0.0, 0.0);
-						fig10.murcielago(12.0, 12.0, 0.1, murcielago.GLindex);
-					glPopMatrix();//pop murcielago2
-
-					glPushMatrix();//push murcielago3
-						glTranslatef(27.0, -10.0, -10.0);
-						glTranslatef(movmurci, 0.0, 0.0);
-						fig10.murcielago(12.0, 12.0, 0.1, murcielago.GLindex);
-					glPopMatrix();//pop murcielago3
-
-					glPushMatrix();//push murcielago4
-						glTranslatef(-26.0, 18.0, 10.0);
-						glRotatef(180, 0.0, 1.0, 0.0);
-						glTranslatef(movmurci, 0.0, 0.0);
-						fig10.murcielago(12.0, 12.0, 0.1, murcielago.GLindex);
-					glPopMatrix();//pop murcielago4
-
-					glPushMatrix();//push murcielago5
-						glTranslatef(27.0, 0.0, 30.0);
-						glTranslatef(movmurci, 0.0, 0.0);
-						fig10.murcielago(12.0, 12.0, 0.1, murcielago.GLindex);
-					glPopMatrix();//pop murcielago5
-
-					glPushMatrix();//push murcielago6
-						glTranslatef(-26.0, -10.0, 35.0);
-						glRotatef(180, 0.0, 1.0, 0.0);
-						glTranslatef(movmurci, 0.0, 0.0);
-						fig10.murcielago(12.0, 12.0, 0.1, murcielago.GLindex);
-					glPopMatrix();//pop murcielago6
-
-				glPopMatrix();//pop grupo murcielagos
+			if (!light)
+			{
+				glDisable(GL_LIGHT0);
+			}
+			else
+			{
+				glEnable(GL_LIGHT0);
+			}
+			if (!lightlamp)
+			{
+				glDisable(GL_LIGHT2);
+			}
+			else
+			{
+				glEnable(GL_LIGHT2);
+			}
 
 			
-
-			glPopMatrix();//pop cuarto de terror
-
-			glPushMatrix();//push dibuja primas para articulacion de puerta
-
-			glTranslatef(-79.0, 0.0, -10.01);
-				fig3.articulacion (15.0, 15.0, 0.000001, transparente.GLindex);
-
-				glPushMatrix();//push translada articulacion puerta1
-					glRotatef(180, 0.0, 0.0, 1.0);
-					glTranslatef(-7.5, -1.0, 0.0);
-					glRotatef(transpuerta1, 0.0, 1.0, 0.0);
-					glPushMatrix(); //push dibuja puerta1
-						glTranslatef(-10.0, 0.0, 0.0);
-						fig4.puerta1(37.5, 32.0, 0.001, puertaterror.GLindex);
-					glPopMatrix(); //pop dibuja puerta1
-				glPopMatrix();//pop translada articulacion puerta 1
-
-			glPopMatrix();//pop  dibuja prima para articulacion de puerta
-			//*************************************************************************************
-			glPushMatrix();//push dibuja primas para articulacion de puerta trasera 
-
-			glTranslatef(-76.8, 0.0, -130.0);
-				fig3.articulacion (15.0, 15.0, 0.000001, transparente.GLindex);
-
-				glPushMatrix();//push translada articulacion puerta2
-					glRotatef(180, 0.0, 0.0, 1.0);
-					glTranslatef(-7.5, -1.0, 0.0);
-					glRotatef(transpuerta2, 0.0, 1.0, 0.0);
-					glPushMatrix(); //push dibuja puerta2
-						glTranslatef(-10.0, 0.0, 0.0);
-						fig4.puerta1(37.5, 29.0, 0.01, puerta2terror.GLindex);//altura*largo*profundidad
-					glPopMatrix(); //pop dibuja puerta2
-				glPopMatrix();//pop translada articulacion puerta 2
-
-			glPopMatrix();//pop  dibuja prima para articulacion de puerta trasera
-
-
-
-			glPushMatrix();//push dibuja prisma para articulacion de ventana izquierda
-			glTranslatef(-30.0, -0.7, -0.7);
-			glTranslatef(-68.5, 15, -9.2);//TRANSLADA LA FIGURA DE LA ARTICULACION
-				fig3.articulacion (10.0, 10.0, 0.000001, transparente.GLindex);
-
-				glPushMatrix();//push translada articulacion ventana
-					glRotatef(180, 0.0, 0.0, 1.0);
-					glTranslatef(-5.5, -1.0, 0.0);
-					glRotatef(transventana1izq, 0.0, 1.0, 0.0);
-					glPushMatrix(); //push dibuja ventana1
-						glTranslatef(-10.0, 0.0, 0.0);
-						fig4.puerta1(15.5, 20.0, 0.001, ventanaterror.GLindex); //altura*largo*profundidad
-					glPopMatrix(); //pop dibuja ventana1
-				glPopMatrix();//pop translada articulacion ventana 1
-
-			glPopMatrix();//pop dibuja prisma para articulacion de ventana izquierda
-
-
-
-			glPushMatrix();//push dibuja prisma para articulacion de ventana derecha
-			glTranslatef(-30.5, 0.0, -0.9);
-			glTranslatef(-23.5, 14.7, -9);//TRANSLADA LA FIGURA DE LA ARTICULACION
-				fig3.articulacion (10.0, 10.0, 0.000001, transparente.GLindex);
-
-				glPushMatrix();//push translada articulacion ventana der
-					glRotatef(180, 0.0, 0.0, 1.0);
-					glTranslatef(-5.5, -1.0, 0.0);
-					glRotatef(transventana1der, 0.0, 1.0, 0.0);
-					glPushMatrix(); //push dibuja ventanader
-						glTranslatef(-10.0, 0.0, 0.0);
-						fig4.puerta1(15.5, 20.0, 0.001, ventanaterror.GLindex); //altura*largo*profundidad
-					glPopMatrix(); //pop dibuja ventanader
-				glPopMatrix();//pop translada articulacion ventanader
-
-			glPopMatrix();//pop dibuja prisma para articulacion de ventana derecha
-
-
-
 			glPushMatrix();//push cuarto muerto
-				glTranslatef(75, 15, -70);
+				glTranslatef(0, 15, -70);
 				fig12.cuarto2(60.0, 70.0, 120.0, textcasa2.GLindex, textcasa.GLindex, textcasa3.GLindex);//altura*largo*profundidad
 				if (!luz)
 				{
@@ -997,105 +511,102 @@ void display ( void )   // Creamos la funcion donde se dibuja
 					glEnable(GL_LIGHT3);
 				}
 
-			glPushMatrix(); //Mesa en 3DS **************Hice la mesa y el papel picado juntos jerarquia o algo asi
+				glPushMatrix(); //Mesa en 3DS **************Hice la mesa y el papel picado juntos jerarquia o algo asi
 				
-				glDisable(GL_COLOR_MATERIAL); //Para conservar las texturas de la mesa
-				glTranslatef(17, -19, 2); 
-				glScalef(1, 0.55, 2);
-				mesa.GLrender(NULL, _SHADED, 1.0);//no olvidar el 1
+					glDisable(GL_COLOR_MATERIAL); //Para conservar las texturas de la mesa
+					glTranslatef(17, -30, 2); 
+					glScalef(1, 0.55, 2);
+					mesa.GLrender(NULL, _SHADED, 1.0);//no olvidar el 1
 			
-				glPushMatrix(); //Push De Papel Mesa cubre mesa
-					glTranslatef(0, 17, 0); //Papel picado, cubre mesa 
-					glScalef(12, 10, 12);
-					glRotatef(-90, 0, 1, 0);
-					fig18.plano2(textpapelmesa.GLindex);//no olvidar el 1
-				glPopMatrix();//pop De Papel mesa
-				glEnable(GL_COLOR_MATERIAL);
-			glPopMatrix();//pop de mesa en 3DS FIN
+					glPushMatrix(); //Push De Papel Mesa cubre mesa
+						glTranslatef(0, 17, 0); //Papel picado, cubre mesa 
+						glScalef(12, 10, 12);
+						glRotatef(-90, 0, 1, 0);
+						fig18.plano2(textpapelmesa.GLindex);//no olvidar el 1
+					glPopMatrix();//pop De Papel mesa
+					glEnable(GL_COLOR_MATERIAL);
+				glPopMatrix();//pop de mesa en 3DS FIN
 
 
-			glPopMatrix();//push cuarto muertos
+				glPushMatrix();//push dibuja primas para articulacion de puerta
+					glTranslatef(-45.0, -15.0, 70.0);
+					glTranslatef(28.0, -3.5, -10.01);
+					fig3.articulacion (15.0, 15.0, 0.000001, transparente.GLindex);
 
-			glPushMatrix();//push dibuja primas para articulacion de puerta
+						glPushMatrix();//push translada articulacion puerta1
+							glRotatef(180, 0.0, 0.0, 1.0);
+							glTranslatef(-7.5, -1.0, 0.0);
+							glRotatef(transpuerta11, 0.0, 1.0, 0.0);
+							glPushMatrix(); //push dibuja puerta1
+								glTranslatef(-10.0, 0.0, 0.0);
+								fig4.puerta1(29.5, 33.5, 0.001, puertaterror.GLindex);
+							glPopMatrix(); //pop dibuja puerta1
+						glPopMatrix();//pop translada articulacion puerta 1
 
-				glTranslatef(58.0, -3.5, -10.01);
-				fig3.articulacion (15.0, 15.0, 0.000001, transparente.GLindex);
+				glPopMatrix();//pop  dibuja prima para articulacion de puerta
+				//*************************************************************************************
+				glPushMatrix();//push dibuja primas para articulacion de puerta trasera 
+					glTranslatef(-45.0, -15.0, 70.0);
+					glTranslatef(27.0, -3.5, -130.0);
+					fig3.articulacion (15.0, 15.0, 0.000001, transparente.GLindex);
 
-					glPushMatrix();//push translada articulacion puerta1
+					glPushMatrix();//push translada articulacion puerta2
 						glRotatef(180, 0.0, 0.0, 1.0);
 						glTranslatef(-7.5, -1.0, 0.0);
-						glRotatef(transpuerta11, 0.0, 1.0, 0.0);
-						glPushMatrix(); //push dibuja puerta1
+						glRotatef(transpuerta22, 0.0, 1.0, 0.0);
+						glPushMatrix(); //push dibuja puerta2
 							glTranslatef(-10.0, 0.0, 0.0);
-							fig4.puerta1(29.5, 33.5, 0.001, puertaterror.GLindex);
-						glPopMatrix(); //pop dibuja puerta1
-					glPopMatrix();//pop translada articulacion puerta 1
+							fig4.puerta1(29.5, 34.0, 0.01, puerta2terror.GLindex);//altura*largo*profundidad
+						glPopMatrix(); //pop dibuja puerta2
+					glPopMatrix();//pop translada articulacion puerta 2
 
-			glPopMatrix();//pop  dibuja prima para articulacion de puerta
-			//*************************************************************************************
-			glPushMatrix();//push dibuja primas para articulacion de puerta trasera 
-
-			glTranslatef(57.0, -3.5, -130.0);
-				fig3.articulacion (15.0, 15.0, 0.000001, transparente.GLindex);
-
-				glPushMatrix();//push translada articulacion puerta2
-					glRotatef(180, 0.0, 0.0, 1.0);
-					glTranslatef(-7.5, -1.0, 0.0);
-					glRotatef(transpuerta22, 0.0, 1.0, 0.0);
-					glPushMatrix(); //push dibuja puerta2
-						glTranslatef(-10.0, 0.0, 0.0);
-						fig4.puerta1(29.5, 34.0, 0.01, puerta2terror.GLindex);//altura*largo*profundidad
-					glPopMatrix(); //pop dibuja puerta2
-				glPopMatrix();//pop translada articulacion puerta 2
-
-			glPopMatrix();//pop  dibuja prima para articulacion de puerta trasera
+				glPopMatrix();//pop  dibuja prima para articulacion de puerta trasera
 
 
 
-			glPushMatrix();//push dibuja prisma para articulacion de ventana izquierda
-			glTranslatef(105.0, -10.0, -0.7);
-			glTranslatef(-68.5, 15, -9.2);//TRANSLADA LA FIGURA DE LA ARTICULACION
-				fig3.articulacion (10.0, 10.0, 0.000001, transparente.GLindex);
+				glPushMatrix();//push dibuja prisma para articulacion de ventana izquierda
+					glTranslatef(-45.0, -15.0, 70.0);
+					glTranslatef(75.0, -10.0, -0.7);
+					glTranslatef(-68.5, 15, -9.2);//TRANSLADA LA FIGURA DE LA ARTICULACION
+					fig3.articulacion (10.0, 10.0, 0.000001, transparente.GLindex);
 
-				glPushMatrix();//push translada articulacion ventana
-					glRotatef(180, 0.0, 0.0, 1.0);
-					glTranslatef(-5.5, -1.0, 0.0);
-					glRotatef(transventana1izq2, 0.0, 1.0, 0.0);
-					glPushMatrix(); //push dibuja ventana1
-						glTranslatef(-10.0, 0.0, 0.0);
-						fig4.puerta1(13.5, 21.0, 0.001, ventanaterror.GLindex); //altura*largo*profundidad
-					glPopMatrix(); //pop dibuja ventana1
-				glPopMatrix();//pop translada articulacion ventana 1
+					glPushMatrix();//push translada articulacion ventana
+						glRotatef(180, 0.0, 0.0, 1.0);
+						glTranslatef(-5.5, -1.0, 0.0);
+						glRotatef(transventana1izq2, 0.0, 1.0, 0.0);
+						glPushMatrix(); //push dibuja ventana1
+							glTranslatef(-10.0, 0.0, 0.0);
+							fig4.puerta1(13.5, 21.0, 0.001, ventanaterror.GLindex); //altura*largo*profundidad
+						glPopMatrix(); //pop dibuja ventana1
+					glPopMatrix();//pop translada articulacion ventana 1
 
-			glPopMatrix();//pop dibuja prisma para articulacion de ventana izquierda
+				glPopMatrix();//pop dibuja prisma para articulacion de ventana izquierda
 
+				glPushMatrix();//push dibuja prisma para articulacion de ventana derecha
+					glTranslatef(-45.0, -15.0, 70.0);
+					glTranslatef(76.0, -9.6, -1.0);
+					glTranslatef(-23.5, 14.7, -9);//TRANSLADA LA FIGURA DE LA ARTICULACION
+					fig3.articulacion (10.0, 10.0, 0.000001, transparente.GLindex);
 
+					glPushMatrix();//push translada articulacion ventana der
+						glRotatef(180, 0.0, 0.0, 1.0);
+						glTranslatef(-5.5, -1.0, 0.0);
+						glRotatef(transventana1der2, 0.0, 1.0, 0.0);
+						glPushMatrix(); //push dibuja ventanader
+							glTranslatef(-10.0, 0.0, 0.0);
+							fig4.puerta1(13.5, 20.0, 0.001, ventanaterror.GLindex); //altura*largo*profundidad
+						glPopMatrix(); //pop dibuja ventanader
+					glPopMatrix();//pop translada articulacion ventanader
 
-			glPushMatrix();//push dibuja prisma para articulacion de ventana derecha
-			glTranslatef(106.0, -9.6, -1.0);
-			glTranslatef(-23.5, 14.7, -9);//TRANSLADA LA FIGURA DE LA ARTICULACION
-				fig3.articulacion (10.0, 10.0, 0.000001, transparente.GLindex);
-
-				glPushMatrix();//push translada articulacion ventana der
-					glRotatef(180, 0.0, 0.0, 1.0);
-					glTranslatef(-5.5, -1.0, 0.0);
-					glRotatef(transventana1der2, 0.0, 1.0, 0.0);
-					glPushMatrix(); //push dibuja ventanader
-						glTranslatef(-10.0, 0.0, 0.0);
-						fig4.puerta1(13.5, 20.0, 0.001, ventanaterror.GLindex); //altura*largo*profundidad
-					glPopMatrix(); //pop dibuja ventanader
-				glPopMatrix();//pop translada articulacion ventanader
-
-			glPopMatrix();//pop dibuja prisma para articulacion de ventana derecha
-
+				glPopMatrix();//pop dibuja prisma para articulacion de ventana derecha
+			glPopMatrix();//push cuarto muertos
 
 		glPopMatrix();//pop principal
 
 	glPopMatrix();//pop camaras
 
 
-	glutSwapBuffers ( );
-
+	glutSwapBuffers();
 }
 
 void animacion()
@@ -1180,7 +691,6 @@ void animacion()
 	glutPostRedisplay();
 }
 
-
 void reshape ( int width , int height )   // Creamos funcion Reshape
 {
   if (height==0)										// Prevenir division entre cero
@@ -1205,25 +715,193 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 {
 	switch ( key ) 
 	{
-		case 'w':   //Movimientos de camara
-		case 'W':
-			objCamera.Move_Camera( CAMERASPEED+0.02 );
-			break;
+	case 'w':
+	case 'W':
+		objCamera.Move_Camera(CAMERASPEED + 0.2);
 
-		case 's':
-		case 'S':
-			objCamera.Move_Camera(-(CAMERASPEED+0.02));
-			break;
+		if (cam == 1) {
+			c1PosX = objCamera.mPos.x;
+			c1PosY = objCamera.mPos.y;
+			c1PosZ = objCamera.mPos.z;
 
-		case 'a':
-		case 'A':
-			objCamera.Strafe_Camera(-(CAMERASPEED+0.04));
-			break;
+			c1ViewX = objCamera.mView.x;
+			c1ViewY = objCamera.mView.y;
+			c1ViewZ = objCamera.mView.z;
 
-		case 'd':
-		case 'D':
-			objCamera.Strafe_Camera( CAMERASPEED+0.04 );
-			break;
+			c1UpX = objCamera.mUp.x;
+			c1UpY = objCamera.mUp.y;
+			c1UpZ = objCamera.mUp.z;
+		}
+
+		if (cam == 2) {
+			c2PosX = objCamera.mPos.x;
+			c2PosY = objCamera.mPos.y;
+			c2PosZ = objCamera.mPos.z;
+
+			c2ViewX = objCamera.mView.x;
+			c2ViewY = objCamera.mView.y;
+			c2ViewZ = objCamera.mView.z;
+
+			c2UpX = objCamera.mUp.x;
+			c2UpY = objCamera.mUp.y;
+			c2UpZ = objCamera.mUp.z;
+		}
+
+		if (cam == 3) {
+			c3PosX = objCamera.mPos.x;
+			c3PosY = objCamera.mPos.y;
+			c3PosZ = objCamera.mPos.z;
+
+			c3ViewX = objCamera.mView.x;
+			c3ViewY = objCamera.mView.y;
+			c3ViewZ = objCamera.mView.z;
+
+			c3UpX = objCamera.mUp.x;
+			c3UpY = objCamera.mUp.y;
+			c3UpZ = objCamera.mUp.z;
+		}
+		break;
+
+	case 's':
+	case 'S':
+		objCamera.Move_Camera(-(CAMERASPEED + 0.2));
+
+		if (cam == 1) {
+			c1PosX = objCamera.mPos.x;
+			c1PosY = objCamera.mPos.y;
+			c1PosZ = objCamera.mPos.z;
+
+			c1ViewX = objCamera.mView.x;
+			c1ViewY = objCamera.mView.y;
+			c1ViewZ = objCamera.mView.z;
+
+			c1UpX = objCamera.mUp.x;
+			c1UpY = objCamera.mUp.y;
+			c1UpZ = objCamera.mUp.z;
+		}
+
+		if (cam == 2) {
+			c2PosX = objCamera.mPos.x;
+			c2PosY = objCamera.mPos.y;
+			c2PosZ = objCamera.mPos.z;
+
+			c2ViewX = objCamera.mView.x;
+			c2ViewY = objCamera.mView.y;
+			c2ViewZ = objCamera.mView.z;
+
+			c2UpX = objCamera.mUp.x;
+			c2UpY = objCamera.mUp.y;
+			c2UpZ = objCamera.mUp.z;
+		}
+
+		if (cam == 3) {
+			c3PosX = objCamera.mPos.x;
+			c3PosY = objCamera.mPos.y;
+			c3PosZ = objCamera.mPos.z;
+
+			c3ViewX = objCamera.mView.x;
+			c3ViewY = objCamera.mView.y;
+			c3ViewZ = objCamera.mView.z;
+
+			c3UpX = objCamera.mUp.x;
+			c3UpY = objCamera.mUp.y;
+			c3UpZ = objCamera.mUp.z;
+		}
+		break;
+
+	case 'a':
+	case 'A':
+		objCamera.Strafe_Camera(-(CAMERASPEED + 0.4));
+
+		if (cam == 1) {
+			c1PosX = objCamera.mPos.x;
+			c1PosY = objCamera.mPos.y;
+			c1PosZ = objCamera.mPos.z;
+
+			c1ViewX = objCamera.mView.x;
+			c1ViewY = objCamera.mView.y;
+			c1ViewZ = objCamera.mView.z;
+
+			c1UpX = objCamera.mUp.x;
+			c1UpY = objCamera.mUp.y;
+			c1UpZ = objCamera.mUp.z;
+		}
+
+		if (cam == 2) {
+			c2PosX = objCamera.mPos.x;
+			c2PosY = objCamera.mPos.y;
+			c2PosZ = objCamera.mPos.z;
+
+			c2ViewX = objCamera.mView.x;
+			c2ViewY = objCamera.mView.y;
+			c2ViewZ = objCamera.mView.z;
+
+			c2UpX = objCamera.mUp.x;
+			c2UpY = objCamera.mUp.y;
+			c2UpZ = objCamera.mUp.z;
+		}
+
+		if (cam == 3) {
+			c3PosX = objCamera.mPos.x;
+			c3PosY = objCamera.mPos.y;
+			c3PosZ = objCamera.mPos.z;
+
+			c3ViewX = objCamera.mView.x;
+			c3ViewY = objCamera.mView.y;
+			c3ViewZ = objCamera.mView.z;
+
+			c3UpX = objCamera.mUp.x;
+			c3UpY = objCamera.mUp.y;
+			c3UpZ = objCamera.mUp.z;
+		}
+		break;
+
+	case 'd':
+	case 'D':
+		objCamera.Strafe_Camera(CAMERASPEED + 0.4);
+
+		if (cam == 1) {
+			c1PosX = objCamera.mPos.x;
+			c1PosY = objCamera.mPos.y;
+			c1PosZ = objCamera.mPos.z;
+
+			c1ViewX = objCamera.mView.x;
+			c1ViewY = objCamera.mView.y;
+			c1ViewZ = objCamera.mView.z;
+
+			c1UpX = objCamera.mUp.x;
+			c1UpY = objCamera.mUp.y;
+			c1UpZ = objCamera.mUp.z;
+		}
+
+		if (cam == 2) {
+			c2PosX = objCamera.mPos.x;
+			c2PosY = objCamera.mPos.y;
+			c2PosZ = objCamera.mPos.z;
+
+			c2ViewX = objCamera.mView.x;
+			c2ViewY = objCamera.mView.y;
+			c2ViewZ = objCamera.mView.z;
+
+			c2UpX = objCamera.mUp.x;
+			c2UpY = objCamera.mUp.y;
+			c2UpZ = objCamera.mUp.z;
+		}
+
+		if (cam == 3) {
+			c3PosX = objCamera.mPos.x;
+			c3PosY = objCamera.mPos.y;
+			c3PosZ = objCamera.mPos.z;
+
+			c3ViewX = objCamera.mView.x;
+			c3ViewY = objCamera.mView.y;
+			c3ViewZ = objCamera.mView.z;
+
+			c3UpX = objCamera.mUp.x;
+			c3UpY = objCamera.mUp.y;
+			c3UpZ = objCamera.mUp.z;
+		}
+		break;
 
 		/*case 'k':		//
 		case 'K':
@@ -1355,34 +1033,64 @@ void keyboard ( unsigned char key, int x, int y )  // Create Keyboard Function
 		default:        // Cualquier otra
 			break;
 
+		case '0': //posicion actual de la camara
+			printf("######################\nCamara: %i\n", cam);
+			printf("%f\n", objCamera.mPos.x);
+			printf("%f\n", objCamera.mPos.y);
+			printf("%f\n", objCamera.mPos.z);
+			printf("----------------------\n");
+			printf("%f\n", objCamera.mView.x);
+			printf("%f\n", objCamera.mView.y);
+			printf("%f\n", objCamera.mView.z);
+			printf("----------------------\n");
+			printf("%f\n", objCamera.mUp.x);
+			printf("%f\n", objCamera.mUp.y);
+			printf("%f\n", objCamera.mUp.z);
+		break;
+
 		case '1'://camara1
-			objCamera.mPos.x = -60.00;
-			objCamera.mPos.y = 0.50;
-			objCamera.mPos.z = -70.00;
-			objCamera.mView.x = -60.00;
-			objCamera.mView.y = 0.0;
-			objCamera.mView.z = -80.00;
-			g_lookupdown = 0.00;
+			cam = 1;
+			objCamera.mPos.x = c1PosX;
+			objCamera.mPos.y = c1PosY;
+			objCamera.mPos.z = c1PosZ;
+
+			objCamera.mView.x = c1ViewX;
+			objCamera.mView.y = c1ViewY;
+			objCamera.mView.z = c1ViewZ;
+
+			objCamera.mUp.x = c1UpX;
+			objCamera.mUp.y = c1UpY;
+			objCamera.mUp.z = c1UpZ;
 			break;
-			//camara2
-		case '2':
-			objCamera.mPos.x = 60.00;
-			objCamera.mPos.y = 0.50;
-			objCamera.mPos.z = -70.00;
-			objCamera.mView.x = 60.00;
-			objCamera.mView.y = 0.50;
-			objCamera.mView.z = -11.50;
-			g_lookupdown = 0.00;
+			
+		case '2'://camara2
+			cam = 2;
+			objCamera.mPos.x = c2PosX;
+			objCamera.mPos.y = c2PosY;
+			objCamera.mPos.z = c2PosZ;
+
+			objCamera.mView.x = c2ViewX;
+			objCamera.mView.y = c2ViewY;
+			objCamera.mView.z = c2ViewZ;
+
+			objCamera.mUp.x = c2UpX;
+			objCamera.mUp.y = c2UpY;
+			objCamera.mUp.z = c2UpZ;
 			break;
-			//camara3
-		case '3':
-			objCamera.mPos.x = 11.00;
-			objCamera.mPos.y = 4.500;
-			objCamera.mPos.z = -13.45;
-			objCamera.mView.x = 0.00;
-			objCamera.mView.y = 4.25;
-			objCamera.mView.z = -20.50;
-			g_lookupdown = 1.00;
+
+		case '3'://camara3
+			cam = 3;
+			objCamera.mPos.x = c3PosX;
+			objCamera.mPos.y = c3PosY;
+			objCamera.mPos.z = c3PosZ;
+
+			objCamera.mView.x = c3ViewX;
+			objCamera.mView.y = c3ViewY;
+			objCamera.mView.z = c3ViewZ;
+
+			objCamera.mUp.x = c3UpX;
+			objCamera.mUp.y = c3UpY;
+			objCamera.mUp.z = c3UpZ;
 			break;
   }
 
@@ -1395,26 +1103,278 @@ void arrow_keys ( int a_keys, int x, int y )  // Funcion para manejo de teclas e
   switch ( a_keys ) {
 	case GLUT_KEY_PAGE_UP:
 		objCamera.UpDown_Camera(CAMERASPEED);
+
+		if (cam == 1) {
+			c1PosX = objCamera.mPos.x;
+			c1PosY = objCamera.mPos.y;
+			c1PosZ = objCamera.mPos.z;
+
+			c1ViewX = objCamera.mView.x;
+			c1ViewY = objCamera.mView.y;
+			c1ViewZ = objCamera.mView.z;
+
+			c1UpX = objCamera.mUp.x;
+			c1UpY = objCamera.mUp.y;
+			c1UpZ = objCamera.mUp.z;
+		}
+
+		if (cam == 2) {
+			c2PosX = objCamera.mPos.x;
+			c2PosY = objCamera.mPos.y;
+			c2PosZ = objCamera.mPos.z;
+
+			c2ViewX = objCamera.mView.x;
+			c2ViewY = objCamera.mView.y;
+			c2ViewZ = objCamera.mView.z;
+
+			c2UpX = objCamera.mUp.x;
+			c2UpY = objCamera.mUp.y;
+			c2UpZ = objCamera.mUp.z;
+		}
+
+		if (cam == 3) {
+			c3PosX = objCamera.mPos.x;
+			c3PosY = objCamera.mPos.y;
+			c3PosZ = objCamera.mPos.z;
+
+			c3ViewX = objCamera.mView.x;
+			c3ViewY = objCamera.mView.y;
+			c3ViewZ = objCamera.mView.z;
+
+			c3UpX = objCamera.mUp.x;
+			c3UpY = objCamera.mUp.y;
+			c3UpZ = objCamera.mUp.z;
+		}
 		break;
 
 	case GLUT_KEY_PAGE_DOWN:
 		objCamera.UpDown_Camera(-CAMERASPEED);
+
+		if (cam == 1) {
+			c1PosX = objCamera.mPos.x;
+			c1PosY = objCamera.mPos.y;
+			c1PosZ = objCamera.mPos.z;
+
+			c1ViewX = objCamera.mView.x;
+			c1ViewY = objCamera.mView.y;
+			c1ViewZ = objCamera.mView.z;
+
+			c1UpX = objCamera.mUp.x;
+			c1UpY = objCamera.mUp.y;
+			c1UpZ = objCamera.mUp.z;
+		}
+
+		if (cam == 2) {
+			c2PosX = objCamera.mPos.x;
+			c2PosY = objCamera.mPos.y;
+			c2PosZ = objCamera.mPos.z;
+
+			c2ViewX = objCamera.mView.x;
+			c2ViewY = objCamera.mView.y;
+			c2ViewZ = objCamera.mView.z;
+
+			c2UpX = objCamera.mUp.x;
+			c2UpY = objCamera.mUp.y;
+			c2UpZ = objCamera.mUp.z;
+		}
+
+		if (cam == 3) {
+			c3PosX = objCamera.mPos.x;
+			c3PosY = objCamera.mPos.y;
+			c3PosZ = objCamera.mPos.z;
+
+			c3ViewX = objCamera.mView.x;
+			c3ViewY = objCamera.mView.y;
+			c3ViewZ = objCamera.mView.z;
+
+			c3UpX = objCamera.mUp.x;
+			c3UpY = objCamera.mUp.y;
+			c3UpZ = objCamera.mUp.z;
+		}
 		break;
 
     case GLUT_KEY_UP:     // Presionamos tecla ARRIBA...
 		g_lookupdown -= 1.0f;
+
+		if (cam == 1) {
+			c1PosX = objCamera.mPos.x;
+			c1PosY = objCamera.mPos.y;
+			c1PosZ = objCamera.mPos.z;
+
+			c1ViewX = objCamera.mView.x;
+			c1ViewY = objCamera.mView.y;
+			c1ViewZ = objCamera.mView.z;
+
+			c1UpX = objCamera.mUp.x;
+			c1UpY = objCamera.mUp.y;
+			c1UpZ = objCamera.mUp.z;
+		}
+
+		if (cam == 2) {
+			c2PosX = objCamera.mPos.x;
+			c2PosY = objCamera.mPos.y;
+			c2PosZ = objCamera.mPos.z;
+
+			c2ViewX = objCamera.mView.x;
+			c2ViewY = objCamera.mView.y;
+			c2ViewZ = objCamera.mView.z;
+
+			c2UpX = objCamera.mUp.x;
+			c2UpY = objCamera.mUp.y;
+			c2UpZ = objCamera.mUp.z;
+		}
+
+		if (cam == 3) {
+			c3PosX = objCamera.mPos.x;
+			c3PosY = objCamera.mPos.y;
+			c3PosZ = objCamera.mPos.z;
+
+			c3ViewX = objCamera.mView.x;
+			c3ViewY = objCamera.mView.y;
+			c3ViewZ = objCamera.mView.z;
+
+			c3UpX = objCamera.mUp.x;
+			c3UpY = objCamera.mUp.y;
+			c3UpZ = objCamera.mUp.z;
+		}
 		break;
 
     case GLUT_KEY_DOWN:               // Presionamos tecla ABAJO...
 		g_lookupdown += 1.0f;
+
+		if (cam == 1) {
+			c1PosX = objCamera.mPos.x;
+			c1PosY = objCamera.mPos.y;
+			c1PosZ = objCamera.mPos.z;
+
+			c1ViewX = objCamera.mView.x;
+			c1ViewY = objCamera.mView.y;
+			c1ViewZ = objCamera.mView.z;
+
+			c1UpX = objCamera.mUp.x;
+			c1UpY = objCamera.mUp.y;
+			c1UpZ = objCamera.mUp.z;
+		}
+
+		if (cam == 2) {
+			c2PosX = objCamera.mPos.x;
+			c2PosY = objCamera.mPos.y;
+			c2PosZ = objCamera.mPos.z;
+
+			c2ViewX = objCamera.mView.x;
+			c2ViewY = objCamera.mView.y;
+			c2ViewZ = objCamera.mView.z;
+
+			c2UpX = objCamera.mUp.x;
+			c2UpY = objCamera.mUp.y;
+			c2UpZ = objCamera.mUp.z;
+		}
+
+		if (cam == 3) {
+			c3PosX = objCamera.mPos.x;
+			c3PosY = objCamera.mPos.y;
+			c3PosZ = objCamera.mPos.z;
+
+			c3ViewX = objCamera.mView.x;
+			c3ViewY = objCamera.mView.y;
+			c3ViewZ = objCamera.mView.z;
+
+			c3UpX = objCamera.mUp.x;
+			c3UpY = objCamera.mUp.y;
+			c3UpZ = objCamera.mUp.z;
+		}
 		break;
 
 	case GLUT_KEY_LEFT:
 		objCamera.Rotate_View(-CAMERASPEED);
+
+		if (cam == 1) {
+			c1PosX = objCamera.mPos.x;
+			c1PosY = objCamera.mPos.y;
+			c1PosZ = objCamera.mPos.z;
+
+			c1ViewX = objCamera.mView.x;
+			c1ViewY = objCamera.mView.y;
+			c1ViewZ = objCamera.mView.z;
+
+			c1UpX = objCamera.mUp.x;
+			c1UpY = objCamera.mUp.y;
+			c1UpZ = objCamera.mUp.z;
+		}
+
+		if (cam == 2) {
+			c2PosX = objCamera.mPos.x;
+			c2PosY = objCamera.mPos.y;
+			c2PosZ = objCamera.mPos.z;
+
+			c2ViewX = objCamera.mView.x;
+			c2ViewY = objCamera.mView.y;
+			c2ViewZ = objCamera.mView.z;
+
+			c2UpX = objCamera.mUp.x;
+			c2UpY = objCamera.mUp.y;
+			c2UpZ = objCamera.mUp.z;
+		}
+
+		if (cam == 3) {
+			c3PosX = objCamera.mPos.x;
+			c3PosY = objCamera.mPos.y;
+			c3PosZ = objCamera.mPos.z;
+
+			c3ViewX = objCamera.mView.x;
+			c3ViewY = objCamera.mView.y;
+			c3ViewZ = objCamera.mView.z;
+
+			c3UpX = objCamera.mUp.x;
+			c3UpY = objCamera.mUp.y;
+			c3UpZ = objCamera.mUp.z;
+		}
 		break;
 
 	case GLUT_KEY_RIGHT:
 		objCamera.Rotate_View( CAMERASPEED);
+
+		if (cam == 1) {
+			c1PosX = objCamera.mPos.x;
+			c1PosY = objCamera.mPos.y;
+			c1PosZ = objCamera.mPos.z;
+
+			c1ViewX = objCamera.mView.x;
+			c1ViewY = objCamera.mView.y;
+			c1ViewZ = objCamera.mView.z;
+
+			c1UpX = objCamera.mUp.x;
+			c1UpY = objCamera.mUp.y;
+			c1UpZ = objCamera.mUp.z;
+		}
+
+		if (cam == 2) {
+			c2PosX = objCamera.mPos.x;
+			c2PosY = objCamera.mPos.y;
+			c2PosZ = objCamera.mPos.z;
+
+			c2ViewX = objCamera.mView.x;
+			c2ViewY = objCamera.mView.y;
+			c2ViewZ = objCamera.mView.z;
+
+			c2UpX = objCamera.mUp.x;
+			c2UpY = objCamera.mUp.y;
+			c2UpZ = objCamera.mUp.z;
+		}
+
+		if (cam == 3) {
+			c3PosX = objCamera.mPos.x;
+			c3PosY = objCamera.mPos.y;
+			c3PosZ = objCamera.mPos.z;
+
+			c3ViewX = objCamera.mView.x;
+			c3ViewY = objCamera.mView.y;
+			c3ViewZ = objCamera.mView.z;
+
+			c3UpX = objCamera.mUp.x;
+			c3UpY = objCamera.mUp.y;
+			c3UpZ = objCamera.mUp.z;
+		}
 		break;
 	/*case GLUT_KEY_F1:
 		PlaySound(TEXT("cancionterror.wav"), NULL, SND_FILENAME | SND_ASYNC);
@@ -1427,14 +1387,13 @@ void arrow_keys ( int a_keys, int x, int y )  // Funcion para manejo de teclas e
   
 }
 
-
 int main ( int argc, char** argv )   // Main Function
 {
   glutInit            (&argc, argv); // Inicializamos OpenGL
   glutInitDisplayMode (GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH); // Display Mode (Clores RGB y alpha | Buffer Doble )
   glutInitWindowSize  (500, 500);	// Tamaño de la Ventana
   glutInitWindowPosition (0, 0);	//Posicion de la Ventana
-  glutCreateWindow    ("Proyecto final Lab"); // Nombre de la Ventana
+  glutCreateWindow    ("Proyecto final"); // Nombre de la Ventana
   //glutFullScreen     ( );         // Full Screen
   InitGL ();						// Parametros iniciales de la aplicacion
   glutDisplayFunc     ( display );  //Indicamos a Glut función de dibujo
