@@ -19,8 +19,12 @@
 CCamera objCamera;
 GLfloat g_lookupdown = 0.0f;
 /*------------------------------OBJETOS DE LAS LUCES----------------------------*/
+
+bool light = false;
+bool luzpecebre = false;
+
 GLfloat Diffuse[]= { 0.5f, 0.5f, 0.5f, 1.0f};
-GLfloat Specular[] = { 1.0, 1.0, 1.0, 1.0 };
+GLfloat Specular[] = { 1.0, 1.0, 1.0, 0.0 };
 GLfloat Position[]= { 0.0f, 27.0f, -5.0f, 0.0f };
 GLfloat Position2[]= { 0.0f, 0.0f, -5.0f, 1.0f };		
 //Verde
@@ -142,16 +146,33 @@ int w = 500, h = 500;
 int frame = 0, time, timebase = 0;
 char s[30];
 /*------------------------------VARIABLE QUE NO CONOZCO----------------------------*/
-int font = (int)GLUT_BITMAP_HELVETICA_18;
+//int font = (int)GLUT_BITMAP_HELVETICA_18;
 		
 void InitGL ( GLvoid ) {
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glEnable(GL_TEXTURE_2D);
 	glShadeModel (GL_SMOOTH);
-	glLightfv(GL_LIGHT1, GL_POSITION, Position);
-	glLightfv(GL_LIGHT1, GL_DIFFUSE, Diffuse);
-	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
+	glEnable(GL_LIGHTING); //Enable lighting
+	glEnable(GL_LIGHT0); //Enable light #0
+	glEnable(GL_LIGHT1); //Enable light #1
+	glEnable(GL_NORMALIZE); //Automatically normalize normals
+
+	GLfloat luz_ambiente[] = { 0.5f,0.5f, 0.5f, 0.0f};
+	GLfloat luz_difusa[] = { 1,1,1,1 }; //color Luz
+
+	//Add positioned light
+	GLfloat diffuseLightColor0[] = { 0.5f , 0.0f, 0.0f, 1.0f };
+	GLfloat specularLightColor0[] = { 1,1,1,1 };
+	GLfloat lightPos0[] = { 1.0f, 1.0f, 0.0f, 0.0f };
+	GLfloat lightPos1[] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	//glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLightColor0);
+	glLightfv(GL_LIGHT0, GL_AMBIENT, luz_ambiente);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, luz_difusa);
+	glLightfv(GL_LIGHT0, GL_POSITION, lightPos0);
+
+	glLightfv(GL_LIGHT1, GL_SPECULAR, Specular);
+	glLightfv(GL_LIGHT1, GL_POSITION, lightPos1);
+
 	glEnable ( GL_COLOR_MATERIAL );
 	glClearDepth(1.0f);								
 	glEnable(GL_DEPTH_TEST);							
@@ -1238,12 +1259,20 @@ void display ( void ) {
 				glEnable(GL_LIGHTING);
 			glPopMatrix();
 
+			if (!light)
+			{
+				glDisable(GL_LIGHT0);
+			}
+			else
+			{
+				glEnable(GL_LIGHT0);
+			}
+
 			glPushMatrix(); //Creamos la casa
 				glTranslatef(0, 7.6, 26);
 				glScalef(15, 15, 15);
-				glDisable(GL_LIGHTING);
+				
 				casa();
-				glEnable(GL_LIGHTING);
 			glPopMatrix();
 
 			glPushMatrix(); //Puerta
@@ -1253,7 +1282,7 @@ void display ( void ) {
 				glPushMatrix();
 					glTranslatef(5.5, 0, -0.5);
 					glScalef(10.9,13.0,1.0);
-					glDisable(GL_LIGHTING);
+					
 					glEnable(GL_ALPHA_TEST);
 					glAlphaFunc(GL_GREATER, 0.1);
 						glEnable(GL_BLEND);
@@ -1261,7 +1290,7 @@ void display ( void ) {
 							puerta(t_Puerta.GLindex);
 						glDisable(GL_BLEND);
 					glDisable(GL_ALPHA_TEST);
-					glEnable(GL_LIGHTING);
+					
 				glPopMatrix();
 			glPopMatrix();
 
@@ -1273,7 +1302,7 @@ void display ( void ) {
 				glPushMatrix();
 					glTranslatef(3.8, -0.1, -0.5);
 					glScalef(7.7, 7.85, 1.0);
-					glDisable(GL_LIGHTING);
+					
 					glEnable(GL_ALPHA_TEST);
 					glAlphaFunc(GL_GREATER, 0.1);
 						glEnable(GL_BLEND);
@@ -1281,7 +1310,7 @@ void display ( void ) {
 							ventana(t_VentanaIzq.GLindex);
 						glDisable(GL_BLEND);
 					glDisable(GL_ALPHA_TEST);
-					glEnable(GL_LIGHTING);
+					
 				glPopMatrix();
 			glPopMatrix();
 
@@ -1293,7 +1322,7 @@ void display ( void ) {
 				glPushMatrix();
 					glTranslatef(-3.8, -0.1, -0.5);
 					glScalef(7.6, 7.88, 1.0);
-					glDisable(GL_LIGHTING);
+					
 					glEnable(GL_ALPHA_TEST);
 					glAlphaFunc(GL_GREATER, 0.1);
 						glEnable(GL_BLEND);
@@ -1301,7 +1330,7 @@ void display ( void ) {
 							ventana(t_VentanaDer.GLindex);
 						glDisable(GL_BLEND);
 					glDisable(GL_ALPHA_TEST);
-					glEnable(GL_LIGHTING);
+					
 				glPopMatrix();
 			glPopMatrix();
 
@@ -1313,7 +1342,7 @@ void display ( void ) {
 				glPushMatrix();
 					glTranslatef(-3.8, -0.1, -0.5);
 					glScalef(7.6, 7.88, 1.0);
-					glDisable(GL_LIGHTING);
+					
 					glEnable(GL_ALPHA_TEST);
 					glAlphaFunc(GL_GREATER, 0.1);
 						glEnable(GL_BLEND);
@@ -1321,7 +1350,7 @@ void display ( void ) {
 							papel(t_Papel1.GLindex);
 						glDisable(GL_BLEND);
 					glDisable(GL_ALPHA_TEST);
-					glEnable(GL_LIGHTING);
+					
 				glPopMatrix();
 			glPopMatrix();
 
@@ -1333,7 +1362,7 @@ void display ( void ) {
 				glPushMatrix();
 					glTranslatef(-3.8, -0.1, -1.4);
 					glScalef(7.6, 7.88, 1.0);
-					glDisable(GL_LIGHTING);
+					
 					glEnable(GL_ALPHA_TEST);
 					glAlphaFunc(GL_GREATER, 0.1);
 						glEnable(GL_BLEND);
@@ -1341,7 +1370,7 @@ void display ( void ) {
 							papel(t_Papel1.GLindex);
 						glDisable(GL_BLEND);
 					glDisable(GL_ALPHA_TEST);
-					glEnable(GL_LIGHTING);
+					
 				glPopMatrix();
 			glPopMatrix();
 
@@ -1353,7 +1382,7 @@ void display ( void ) {
 				glPushMatrix();
 					glTranslatef(-3.8, -0.1, -0.5);
 					glScalef(7.6, 7.88, 1.0);
-					glDisable(GL_LIGHTING);
+					
 					glEnable(GL_ALPHA_TEST);
 					glAlphaFunc(GL_GREATER, 0.1);
 						glEnable(GL_BLEND);
@@ -1361,7 +1390,7 @@ void display ( void ) {
 							papel(t_Papel1.GLindex);
 						glDisable(GL_BLEND);
 					glDisable(GL_ALPHA_TEST);
-					glEnable(GL_LIGHTING);
+					
 				glPopMatrix();
 			glPopMatrix();
 
@@ -1373,7 +1402,7 @@ void display ( void ) {
 				glPushMatrix();
 					glTranslatef(-3.8, -0.1, -1.4);
 					glScalef(7.6, 7.88, 1.0);
-					glDisable(GL_LIGHTING);
+					
 					glEnable(GL_ALPHA_TEST);
 					glAlphaFunc(GL_GREATER, 0.1);
 						glEnable(GL_BLEND);
@@ -1381,7 +1410,7 @@ void display ( void ) {
 							papel(t_Papel1.GLindex);
 						glDisable(GL_BLEND);
 					glDisable(GL_ALPHA_TEST);
-					glEnable(GL_LIGHTING);
+					
 				glPopMatrix();
 			glPopMatrix();
 
@@ -1393,7 +1422,7 @@ void display ( void ) {
 				glPushMatrix();
 					glTranslatef(-3.8, -0.1, -0.5);
 					glScalef(7.6, 7.88, 1.0);
-					glDisable(GL_LIGHTING);
+					
 					glEnable(GL_ALPHA_TEST);
 					glAlphaFunc(GL_GREATER, 0.1);
 						glEnable(GL_BLEND);
@@ -1401,7 +1430,7 @@ void display ( void ) {
 							papel(t_Papel1.GLindex);
 						glDisable(GL_BLEND);
 					glDisable(GL_ALPHA_TEST);
-					glEnable(GL_LIGHTING);
+					
 				glPopMatrix();
 			glPopMatrix();
 
@@ -1413,7 +1442,7 @@ void display ( void ) {
 				glPushMatrix();
 					glTranslatef(-3.8, -0.1, -1.4);
 					glScalef(7.6, 7.88, 1.0);
-					glDisable(GL_LIGHTING);
+					
 					glEnable(GL_ALPHA_TEST);
 					glAlphaFunc(GL_GREATER, 0.1);
 						glEnable(GL_BLEND);
@@ -1421,7 +1450,7 @@ void display ( void ) {
 							papel(t_Papel1.GLindex);
 						glDisable(GL_BLEND);
 					glDisable(GL_ALPHA_TEST);
-					glEnable(GL_LIGHTING);
+					
 				glPopMatrix();
 			glPopMatrix();
 
@@ -1433,7 +1462,7 @@ void display ( void ) {
 				glPushMatrix();
 					glTranslatef(13.5, 2, -11.6);
 					glScalef(2, 2, 1.0);
-					glDisable(GL_LIGHTING);
+					
 					glEnable(GL_ALPHA_TEST);
 					glAlphaFunc(GL_GREATER, 0.1);
 						glEnable(GL_BLEND);
@@ -1441,7 +1470,7 @@ void display ( void ) {
 							papel(t_Papel5.GLindex);
 						glDisable(GL_BLEND);
 					glDisable(GL_ALPHA_TEST);
-					glEnable(GL_LIGHTING);
+					
 				glPopMatrix();
 			glPopMatrix();
 
@@ -1453,7 +1482,7 @@ void display ( void ) {
 				glPushMatrix();
 					glTranslatef(-13.5, 2, -19.2);
 					glScalef(2, 2, 1.0);
-					glDisable(GL_LIGHTING);
+					
 					glEnable(GL_ALPHA_TEST);
 					glAlphaFunc(GL_GREATER, 0.1);
 						glEnable(GL_BLEND);
@@ -1461,7 +1490,7 @@ void display ( void ) {
 							papel(t_Papel5.GLindex);
 						glDisable(GL_BLEND);
 					glDisable(GL_ALPHA_TEST);
-					glEnable(GL_LIGHTING);
+					
 				glPopMatrix();
 			glPopMatrix();
 
@@ -1473,7 +1502,7 @@ void display ( void ) {
 				glPushMatrix();
 					glTranslatef(-3.8, -0.1, -1.4);
 					glScalef(12, 3, 1.0);
-					glDisable(GL_LIGHTING);
+					
 					glEnable(GL_ALPHA_TEST);
 					glAlphaFunc(GL_GREATER, 0.1);
 						glEnable(GL_BLEND);
@@ -1481,7 +1510,7 @@ void display ( void ) {
 							papel(t_Papel6.GLindex);
 						glDisable(GL_BLEND);
 					glDisable(GL_ALPHA_TEST);
-					glEnable(GL_LIGHTING);
+					
 				glPopMatrix();
 			glPopMatrix();
 
@@ -1493,7 +1522,7 @@ void display ( void ) {
 				glPushMatrix();
 					glTranslatef(-5, -0.1, 10.65);
 					glScalef(12, 3, 1.0);
-					glDisable(GL_LIGHTING);
+					
 					glEnable(GL_ALPHA_TEST);
 					glAlphaFunc(GL_GREATER, 0.1);
 						glEnable(GL_BLEND);
@@ -1501,7 +1530,7 @@ void display ( void ) {
 							papel(t_Papel6.GLindex);
 						glDisable(GL_BLEND);
 					glDisable(GL_ALPHA_TEST);
-					glEnable(GL_LIGHTING);
+					
 				glPopMatrix();
 			glPopMatrix();
 
@@ -1513,7 +1542,7 @@ void display ( void ) {
 				glPushMatrix();
 					glTranslatef(-22, -0.1, 10.65);
 					glScalef(12, 3, 1.0);
-					glDisable(GL_LIGHTING);
+					
 					glEnable(GL_ALPHA_TEST);
 					glAlphaFunc(GL_GREATER, 0.1);
 						glEnable(GL_BLEND);
@@ -1521,7 +1550,7 @@ void display ( void ) {
 							papel(t_Papel6.GLindex);
 						glDisable(GL_BLEND);
 					glDisable(GL_ALPHA_TEST);
-					glEnable(GL_LIGHTING);
+					
 				glPopMatrix();
 			glPopMatrix();
 
@@ -1533,7 +1562,7 @@ void display ( void ) {
 				glPushMatrix();
 					glTranslatef(-5, -0.1, -19.2);
 					glScalef(12, 3, 1.0);
-					glDisable(GL_LIGHTING);
+					
 					glEnable(GL_ALPHA_TEST);
 					glAlphaFunc(GL_GREATER, 0.1);
 						glEnable(GL_BLEND);
@@ -1541,7 +1570,7 @@ void display ( void ) {
 							papel(t_Papel6.GLindex);
 						glDisable(GL_BLEND);
 					glDisable(GL_ALPHA_TEST);
-					glEnable(GL_LIGHTING);
+					
 				glPopMatrix();
 			glPopMatrix();
 
@@ -1553,7 +1582,7 @@ void display ( void ) {
 				glPushMatrix();
 					glTranslatef(-22, -0.1, -19.2);
 					glScalef(12, 3, 1.0);
-					glDisable(GL_LIGHTING);
+					
 					glEnable(GL_ALPHA_TEST);
 					glAlphaFunc(GL_GREATER, 0.1);
 						glEnable(GL_BLEND);
@@ -1561,7 +1590,7 @@ void display ( void ) {
 							papel(t_Papel6.GLindex);
 						glDisable(GL_BLEND);
 					glDisable(GL_ALPHA_TEST);
-					glEnable(GL_LIGHTING);
+					
 				glPopMatrix();
 			glPopMatrix();
 
@@ -1573,7 +1602,7 @@ void display ( void ) {
 				glPushMatrix();
 					glTranslatef(13.5, 2, -11.6);
 					glScalef(2, 2, 1.0);
-					glDisable(GL_LIGHTING);
+					
 					glEnable(GL_ALPHA_TEST);
 					glAlphaFunc(GL_GREATER, 0.1);
 						glEnable(GL_BLEND);
@@ -1581,7 +1610,7 @@ void display ( void ) {
 							papel(t_Papel5.GLindex);
 						glDisable(GL_BLEND);
 					glDisable(GL_ALPHA_TEST);
-					glEnable(GL_LIGHTING);
+					
 				glPopMatrix();
 			glPopMatrix();
 
@@ -1593,7 +1622,7 @@ void display ( void ) {
 				glPushMatrix();
 					glTranslatef(-13.5, 2, -19.2);
 					glScalef(2, 2, 1.0);
-					glDisable(GL_LIGHTING);
+					
 					glEnable(GL_ALPHA_TEST);
 					glAlphaFunc(GL_GREATER, 0.1);
 						glEnable(GL_BLEND);
@@ -1601,7 +1630,7 @@ void display ( void ) {
 							papel(t_Papel5.GLindex);
 						glDisable(GL_BLEND);
 					glDisable(GL_ALPHA_TEST);
-					glEnable(GL_LIGHTING);
+					
 				glPopMatrix();
 			glPopMatrix();
 
@@ -1613,7 +1642,7 @@ void display ( void ) {
 				glPushMatrix();
 					glTranslatef(-3.8, -0.1, -1.4);
 					glScalef(12, 3, 1.0);
-					glDisable(GL_LIGHTING);
+					
 					glEnable(GL_ALPHA_TEST);
 					glAlphaFunc(GL_GREATER, 0.1);
 						glEnable(GL_BLEND);
@@ -1621,7 +1650,7 @@ void display ( void ) {
 							papel(t_Papel6.GLindex);
 						glDisable(GL_BLEND);
 					glDisable(GL_ALPHA_TEST);
-					glEnable(GL_LIGHTING);
+					
 				glPopMatrix();
 			glPopMatrix();
 
@@ -1633,7 +1662,7 @@ void display ( void ) {
 				glPushMatrix();
 					glTranslatef(-5, -0.1, 10.65);
 					glScalef(12, 3, 1.0);
-					glDisable(GL_LIGHTING);
+					
 					glEnable(GL_ALPHA_TEST);
 					glAlphaFunc(GL_GREATER, 0.1);
 						glEnable(GL_BLEND);
@@ -1641,7 +1670,7 @@ void display ( void ) {
 							papel(t_Papel6.GLindex);
 						glDisable(GL_BLEND);
 					glDisable(GL_ALPHA_TEST);
-					glEnable(GL_LIGHTING);
+					
 				glPopMatrix();
 			glPopMatrix();
 
@@ -1653,7 +1682,7 @@ void display ( void ) {
 				glPushMatrix();
 					glTranslatef(-22, -0.1, 10.65);
 					glScalef(12, 3, 1.0);
-					glDisable(GL_LIGHTING);
+					
 					glEnable(GL_ALPHA_TEST);
 					glAlphaFunc(GL_GREATER, 0.1);
 						glEnable(GL_BLEND);
@@ -1661,7 +1690,7 @@ void display ( void ) {
 							papel(t_Papel6.GLindex);
 						glDisable(GL_BLEND);
 					glDisable(GL_ALPHA_TEST);
-					glEnable(GL_LIGHTING);
+					
 				glPopMatrix();
 			glPopMatrix();
 
@@ -1673,7 +1702,7 @@ void display ( void ) {
 				glPushMatrix();
 					glTranslatef(-5, -0.1, -19.2);
 					glScalef(12, 3, 1.0);
-					glDisable(GL_LIGHTING);
+					
 					glEnable(GL_ALPHA_TEST);
 					glAlphaFunc(GL_GREATER, 0.1);
 						glEnable(GL_BLEND);
@@ -1681,7 +1710,7 @@ void display ( void ) {
 							papel(t_Papel6.GLindex);
 						glDisable(GL_BLEND);
 					glDisable(GL_ALPHA_TEST);
-					glEnable(GL_LIGHTING);
+					
 				glPopMatrix();
 			glPopMatrix();
 
@@ -1693,7 +1722,7 @@ void display ( void ) {
 				glPushMatrix();
 					glTranslatef(-22, -0.1, -19.2);
 					glScalef(12, 3, 1.0);
-					glDisable(GL_LIGHTING);
+					
 					glEnable(GL_ALPHA_TEST);
 					glAlphaFunc(GL_GREATER, 0.1);
 						glEnable(GL_BLEND);
@@ -1701,7 +1730,7 @@ void display ( void ) {
 							papel(t_Papel6.GLindex);
 						glDisable(GL_BLEND);
 					glDisable(GL_ALPHA_TEST);
-					glEnable(GL_LIGHTING);
+					
 				glPopMatrix();
 			glPopMatrix();
 
@@ -1713,7 +1742,7 @@ void display ( void ) {
 				glPushMatrix();
 					glTranslatef(-13.5, -4, -19.2);
 					glScalef(5, 3, 1.0);
-					glDisable(GL_LIGHTING);
+					
 					glEnable(GL_ALPHA_TEST);
 					glAlphaFunc(GL_GREATER, 0.1);
 						glEnable(GL_BLEND);
@@ -1721,7 +1750,7 @@ void display ( void ) {
 							muñeco();
 						glDisable(GL_BLEND);
 					glDisable(GL_ALPHA_TEST);
-					glEnable(GL_LIGHTING);
+					
 				glPopMatrix();
 			glPopMatrix();
 
@@ -1734,7 +1763,7 @@ void display ( void ) {
 					glTranslatef(13.5, -2.5, -11.6);
 					glScalef(4.5, 4.5, 1.0);
 					glRotatef(-30, 0, 0, 1);
-					glDisable(GL_LIGHTING);
+					
 					glEnable(GL_ALPHA_TEST);
 					glAlphaFunc(GL_GREATER, 0.1);
 						glEnable(GL_BLEND);
@@ -1742,14 +1771,14 @@ void display ( void ) {
 							papel(t_Papel3.GLindex);
 						glDisable(GL_BLEND);
 					glDisable(GL_ALPHA_TEST);
-					glEnable(GL_LIGHTING);
+					
 				glPopMatrix();
 			glPopMatrix();
 
 			glPushMatrix();  //Flor
 				glTranslatef(11, 2.15, 11);
 				glScalef(3, 3, 3);
-				glDisable(GL_LIGHTING);
+				
 				glEnable(GL_ALPHA_TEST);
 				glAlphaFunc(GL_GREATER, 0.1);
 					glEnable(GL_BLEND);
@@ -1757,13 +1786,13 @@ void display ( void ) {
 						flor();
 					glDisable(GL_BLEND);
 				glDisable(GL_ALPHA_TEST);
-				glEnable(GL_LIGHTING);
+				
 			glPopMatrix();
 
 			glPushMatrix();  //Flor
 				glTranslatef(-11, 2.15, 37);
 				glScalef(3, 3, 3);
-				glDisable(GL_LIGHTING);
+				
 				glEnable(GL_ALPHA_TEST);
 				glAlphaFunc(GL_GREATER, 0.1);
 					glEnable(GL_BLEND);
@@ -1771,13 +1800,13 @@ void display ( void ) {
 						flor();
 					glDisable(GL_BLEND);
 				glDisable(GL_ALPHA_TEST);
-				glEnable(GL_LIGHTING);
+				
 			glPopMatrix();
 
 			glPushMatrix();  //Flor
 				glTranslatef(11, 2.15, 37);
 				glScalef(3, 3, 3);
-				glDisable(GL_LIGHTING);
+				
 				glEnable(GL_ALPHA_TEST);
 				glAlphaFunc(GL_GREATER, 0.1);
 					glEnable(GL_BLEND);
@@ -1785,7 +1814,7 @@ void display ( void ) {
 						flor();
 					glDisable(GL_BLEND);
 				glDisable(GL_ALPHA_TEST);
-				glEnable(GL_LIGHTING);
+				
 			glPopMatrix();
 
 			glPushMatrix(); //Mesa
@@ -1799,7 +1828,7 @@ void display ( void ) {
 			glPushMatrix();  //Corona
 				glTranslatef(11.9, 4.5, 24.5);
 				glScalef(2, 1, 2);
-				glDisable(GL_LIGHTING);
+				
 				glEnable(GL_ALPHA_TEST);
 				glAlphaFunc(GL_GREATER, 0.1);
 					glEnable(GL_BLEND);
@@ -1807,7 +1836,7 @@ void display ( void ) {
 						corona();
 					glDisable(GL_BLEND);
 				glDisable(GL_ALPHA_TEST);
-				glEnable(GL_LIGHTING);
+				
 			glPopMatrix();
 
 			glPushMatrix(); //Vela
@@ -1843,7 +1872,7 @@ void display ( void ) {
 				glTranslatef(santaX * 2, 0, 0);
 				glRotatef(giraSanta,0,1,0);
 				glScalef(17, 13, 1);
-				glDisable(GL_LIGHTING);
+				
 				glEnable(GL_ALPHA_TEST);
 				glAlphaFunc(GL_GREATER, 0.7);
 					glEnable(GL_BLEND);
@@ -1851,7 +1880,7 @@ void display ( void ) {
 						papel(t_Santa.GLindex);
 					glDisable(GL_BLEND);
 				glDisable(GL_ALPHA_TEST);
-				glEnable(GL_LIGHTING);
+				
 			glPopMatrix();
 
 			glPushMatrix(); //piñata
@@ -1897,7 +1926,7 @@ void display ( void ) {
 			glPushMatrix();  //Corona
 				glTranslatef(0, 0.5, -18);
 				glScalef(2, 1, 2);
-				glDisable(GL_LIGHTING);
+				
 				glEnable(GL_ALPHA_TEST);
 				glAlphaFunc(GL_GREATER, 0.1);
 					glEnable(GL_BLEND);
@@ -1905,7 +1934,7 @@ void display ( void ) {
 						nacim(0.5);
 					glDisable(GL_BLEND);
 				glDisable(GL_ALPHA_TEST);
-				glEnable(GL_LIGHTING);
+				
 			glPopMatrix();
 
 			glPushMatrix(); //niño
@@ -1975,7 +2004,7 @@ void display ( void ) {
 			glPushMatrix(); //cerca
 				glTranslatef(-4, 1.5, -19);
 				glScalef(5, 7, 1.0);
-				glDisable(GL_LIGHTING);
+				
 				glEnable(GL_ALPHA_TEST);
 				glAlphaFunc(GL_GREATER, 0.1);
 					glEnable(GL_BLEND);
@@ -1983,13 +2012,13 @@ void display ( void ) {
 						papel(t_cerca.GLindex);
 					glDisable(GL_BLEND);
 				glDisable(GL_ALPHA_TEST);
-				glEnable(GL_LIGHTING);
+				
 			glPopMatrix();
 
 			glPushMatrix(); //cerca
 				glTranslatef(1, 1.5, -19);
 				glScalef(5, 7, 1.0);
-				glDisable(GL_LIGHTING);
+				
 				glEnable(GL_ALPHA_TEST);
 				glAlphaFunc(GL_GREATER, 0.1);
 					glEnable(GL_BLEND);
@@ -1997,13 +2026,13 @@ void display ( void ) {
 						papel(t_cerca.GLindex);
 					glDisable(GL_BLEND);
 				glDisable(GL_ALPHA_TEST);
-				glEnable(GL_LIGHTING);
+				
 			glPopMatrix();
 
 			glPushMatrix(); //cerca
 				glTranslatef(6, 1.5, -19);
 				glScalef(5, 7, 1.0);
-				glDisable(GL_LIGHTING);
+				
 				glEnable(GL_ALPHA_TEST);
 				glAlphaFunc(GL_GREATER, 0.1);
 					glEnable(GL_BLEND);
@@ -2011,14 +2040,14 @@ void display ( void ) {
 						papel(t_cerca.GLindex);
 					glDisable(GL_BLEND);
 				glDisable(GL_ALPHA_TEST);
-				glEnable(GL_LIGHTING);
+				
 			glPopMatrix();
 
 			glPushMatrix(); //cerca
 				glTranslatef(-7, 1.5, -16);
 				glRotatef(90, 0, 1, 0);
 				glScalef(5, 7, 1.0);
-				glDisable(GL_LIGHTING);
+				
 				glEnable(GL_ALPHA_TEST);
 				glAlphaFunc(GL_GREATER, 0.1);
 					glEnable(GL_BLEND);
@@ -2026,14 +2055,14 @@ void display ( void ) {
 						papel(t_cerca.GLindex);
 					glDisable(GL_BLEND);
 				glDisable(GL_ALPHA_TEST);
-				glEnable(GL_LIGHTING);
+				
 			glPopMatrix();
 
 			glPushMatrix(); //cerca
 				glTranslatef(8, 1.5, -16);
 				glRotatef(90, 0, 1, 0);
 				glScalef(5, 7, 1.0);
-				glDisable(GL_LIGHTING);
+				
 				glEnable(GL_ALPHA_TEST);
 				glAlphaFunc(GL_GREATER, 0.1);
 					glEnable(GL_BLEND);
@@ -2041,14 +2070,14 @@ void display ( void ) {
 						papel(t_cerca.GLindex);
 					glDisable(GL_BLEND);
 				glDisable(GL_ALPHA_TEST);
-				glEnable(GL_LIGHTING);
+				
 			glPopMatrix();
 
 			glPushMatrix(); //Suelo paja
 				glTranslatef(1, 0.7, -16);
 				glRotatef(90, 1, 0, 0);
 				glScalef(15, 5, 1.0);
-				glDisable(GL_LIGHTING);
+				
 				glEnable(GL_ALPHA_TEST);
 				glAlphaFunc(GL_GREATER, 0.1);
 					glEnable(GL_BLEND);
@@ -2056,14 +2085,22 @@ void display ( void ) {
 						papel(t_sueloPaja.GLindex);
 					glDisable(GL_BLEND);
 				glDisable(GL_ALPHA_TEST);
-				glEnable(GL_LIGHTING);
+				
 			glPopMatrix();
 
 			glPushMatrix(); //techo madera pecebre
+			if (!luzpecebre)
+			{
+				glDisable(GL_LIGHT1);
+			}
+			else
+			{
+				glEnable(GL_LIGHT1);
+			}
 				glTranslatef(1, 5.4, -16);
 				glRotatef(90, 1, 0, 0);
 				glScalef(15, 5, 1.0);
-				glDisable(GL_LIGHTING);
+				
 				glEnable(GL_ALPHA_TEST);
 				glAlphaFunc(GL_GREATER, 0.1);
 					glEnable(GL_BLEND);
@@ -2071,7 +2108,7 @@ void display ( void ) {
 						papel(t_Pared.GLindex);
 					glDisable(GL_BLEND);
 				glDisable(GL_ALPHA_TEST);
-				glEnable(GL_LIGHTING);
+				
 			glPopMatrix();
 
 			glPushMatrix();//agua
@@ -2081,7 +2118,7 @@ void display ( void ) {
 
 					glPushMatrix();
 						glTranslatef(0.0, 1.1, 0.0);
-						glDisable(GL_LIGHTING);
+						
 						glEnable(GL_BLEND);
 						glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 						glBindTexture(GL_TEXTURE_2D, t_agua.GLindex);
@@ -2092,7 +2129,7 @@ void display ( void ) {
 							glTexCoord2f(1 + alberca, 1 + alberca);	glVertex3f(-11, 0, 7);
 							glTexCoord2f(0 + alberca, 1 + alberca);	glVertex3f(11, 0, 7);
 						glEnd();
-						glEnable(GL_LIGHTING);
+						
 						glDisable(GL_ALPHA_TEST);
 						glDisable(GL_CULL_FACE);
 						glDepthFunc(GL_LEQUAL);
@@ -2106,7 +2143,7 @@ void display ( void ) {
 
 					glPushMatrix();
 						glTranslatef(0.0, 1.1, 0.0);
-						glDisable(GL_LIGHTING);
+						
 						glEnable(GL_BLEND);
 						glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 						glBindTexture(GL_TEXTURE_2D, t_lava.GLindex);
@@ -2117,7 +2154,7 @@ void display ( void ) {
 							glTexCoord2f(1 + alberca, 1 + alberca);	glVertex3f(-11, 0, 7);
 							glTexCoord2f(0 + alberca, 1 + alberca);	glVertex3f(11, 0, 7);
 						glEnd();
-						glEnable(GL_LIGHTING);
+						
 						glDisable(GL_ALPHA_TEST);
 						glDisable(GL_CULL_FACE);
 						glDepthFunc(GL_LEQUAL);
@@ -2587,6 +2624,16 @@ void keyboard ( unsigned char key, int x, int y ) {
 		case 'G':
 			rotPierIzq--;
 			break;
+		case 'z':   //Activamos/desactivamos luz
+		case 'Z':
+			light = !light;
+			break;
+
+		case 'x':   //Activamos/desactivamos luz
+		case 'X':
+			luzpecebre = !luzpecebre;
+			break;
+
 
 		case ' ':		//Poner algo en movimiento
 			g_fanimacion = !g_fanimacion; //Activamos/desactivamos la animacíon
